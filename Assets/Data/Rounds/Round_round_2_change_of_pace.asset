@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HalloweenDerby.Runtime::HalloweenDerby.Core.RoundConfig
   RoundId: round_2_change_of_pace
   DisplayName: Change of Pace
-  TutorialText: A changeup is mixed in now - it looks the same leaving the hand but arrives much slower. Trust your timing, not your eyes.
+  TutorialText: Now you are facing a fastball and a changeup. It moves much slower.
   PitchPool:
   - {fileID: 11400000, guid: 9615cfbf4c99f4fa69c240dd2413b8f7, type: 2}
   - {fileID: 11400000, guid: 4ab19da45ba7e46da95b9ffdf6c2d009, type: 2}

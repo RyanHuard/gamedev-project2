@@ -201,7 +201,10 @@ namespace HalloweenDerby.Core
             ScoreThisRound += points;
             GameEvents.RaiseScoreChanged(ScoreThisRound, CurrentRound.PointsToAdvance);
 
-            if (!counted)
+            // Taking a pitch (never swinging at all) is free - only a genuine swing that isn't
+            // a home run (a miss, foul, or non-homer hit) costs an out.
+            bool wasTake = outcome.Quality == ContactQuality.Miss && !outcome.WasSwing;
+            if (!counted && !wasTake)
             {
                 OutsUsed++;
                 GameEvents.RaiseOutsChanged(OutsUsed, CurrentRound.OutLimit);

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HalloweenDerby.Runtime::HalloweenDerby.Core.RoundConfig
   RoundId: round_5_night_game
   DisplayName: Night Game
-  TutorialText: Pitches are ranging further from the zone now - lay off the bad ones.
+  TutorialText: Pitches are placed all over the zone. Taking a pitch does not count as an out.
   PitchPool:
   - {fileID: 11400000, guid: ec951ef0c04024767b66b456961d29c1, type: 2}
   - {fileID: 11400000, guid: 4ab19da45ba7e46da95b9ffdf6c2d009, type: 2}

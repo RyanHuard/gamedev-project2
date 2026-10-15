@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HalloweenDerby.Runtime::HalloweenDerby.Core.RoundConfig
   RoundId: round_4_full_count
   DisplayName: Full Count
-  TutorialText: The fastball's faster and tighter now - full arsenal, less time to react.
+  TutorialText: Now the fastball is even faster.
   PitchPool:
   - {fileID: 11400000, guid: ec951ef0c04024767b66b456961d29c1, type: 2}
   - {fileID: 11400000, guid: 4ab19da45ba7e46da95b9ffdf6c2d009, type: 2}

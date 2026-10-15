@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HalloweenDerby.Runtime::HalloweenDerby.Core.RoundConfig
   RoundId: round_6_halloween_derby
   DisplayName: Halloween Derby
-  TutorialText: Final round - everything you've learned, all at once, fast.
+  TutorialText: Final round. Maximum difficulty.
   PitchPool:
   - {fileID: 11400000, guid: ec951ef0c04024767b66b456961d29c1, type: 2}
   - {fileID: 11400000, guid: 4ab19da45ba7e46da95b9ffdf6c2d009, type: 2}

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HalloweenDerby.Runtime::HalloweenDerby.Core.RoundConfig
   RoundId: round_3_curveball_alley
   DisplayName: Curveball Alley
-  TutorialText: A curveball joins the mix too - it breaks sideways late, so track it all the way in.
+  TutorialText: A curveball is mixed in now too.
   PitchPool:
   - {fileID: 11400000, guid: 9615cfbf4c99f4fa69c240dd2413b8f7, type: 2}
   - {fileID: 11400000, guid: 4ab19da45ba7e46da95b9ffdf6c2d009, type: 2}
