@@ -29,6 +29,7 @@ namespace HalloweenDerby.Core
             GameEvents.BallCameraRequested += HandleBallCameraRequested;
             GameEvents.BallCameraReleased += HandleBallCameraReleased;
             GameEvents.RestartRequested += HandleRestartRequested;
+            GameEvents.GameStartRequested += HandleGameStartRequested;
         }
 
         private void OnDisable()
@@ -37,6 +38,7 @@ namespace HalloweenDerby.Core
             GameEvents.BallCameraRequested -= HandleBallCameraRequested;
             GameEvents.BallCameraReleased -= HandleBallCameraReleased;
             GameEvents.RestartRequested -= HandleRestartRequested;
+            GameEvents.GameStartRequested -= HandleGameStartRequested;
         }
 
         private void HandleRestartRequested() => StartRound(0);
@@ -44,7 +46,10 @@ namespace HalloweenDerby.Core
         private void HandleBallCameraRequested(Transform _) => ballCameraActive = true;
         private void HandleBallCameraReleased() => ballCameraActive = false;
 
-        private void Start()
+        // The derby no longer auto-starts on scene load - it waits for the player to click
+        // Start on the rules screen (HUDController's startScreenPanel), which is what raises
+        // GameStartRequested.
+        private void HandleGameStartRequested()
         {
             if (rounds != null && rounds.Length > 0)
                 StartCoroutine(BeginRoundAfterDelay(0, delayBeforeFirstPitch));

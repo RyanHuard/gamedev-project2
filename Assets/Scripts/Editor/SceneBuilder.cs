@@ -67,37 +67,37 @@ namespace HalloweenDerby.EditorTools
                 id: "round_1_warm_up", name: "Warm-Up",
                 tutorial: "Move the reticle into the zone and click as the pumpkin arrives - where and when you connect both matter!",
                 pitches: new[] { fastballEasy }, outLimit: 5,
-                pointsToAdvance: 350f, locationSpread: 0.35f);
+                pointsToAdvance: 1000f, locationSpread: 0.35f);
 
             var roundChangeOfPace = CreateRoundConfig(
                 id: "round_2_change_of_pace", name: "Change of Pace",
                 tutorial: "A changeup is mixed in now - it looks the same leaving the hand but arrives much slower. Trust your timing, not your eyes.",
                 pitches: new[] { fastballEasy, changeup }, outLimit: 5,
-                pointsToAdvance: 400f, locationSpread: 0.45f);
+                pointsToAdvance: 1250f, locationSpread: 0.45f);
 
             var roundCurveballAlley = CreateRoundConfig(
                 id: "round_3_curveball_alley", name: "Curveball Alley",
                 tutorial: "A curveball joins the mix too - it breaks sideways late, so track it all the way in.",
                 pitches: new[] { fastballEasy, changeup, curveball }, outLimit: 5,
-                pointsToAdvance: 450f, locationSpread: 0.55f);
+                pointsToAdvance: 1500f, locationSpread: 0.55f);
 
             var roundFullCount = CreateRoundConfig(
                 id: "round_4_full_count", name: "Full Count",
                 tutorial: "The fastball's faster and tighter now - full arsenal, less time to react.",
                 pitches: new[] { fastball, changeup, curveball }, outLimit: 5,
-                pointsToAdvance: 500f, locationSpread: 0.65f);
+                pointsToAdvance: 2000f, locationSpread: 0.65f);
 
             var roundNightGame = CreateRoundConfig(
                 id: "round_5_night_game", name: "Night Game",
                 tutorial: "Pitches are ranging further from the zone now - lay off the bad ones.",
                 pitches: new[] { fastball, changeup, curveball }, outLimit: 5,
-                pointsToAdvance: 550f, locationSpread: 0.75f);
+                pointsToAdvance: 2500f, locationSpread: 0.75f);
 
             var roundHalloweenDerby = CreateRoundConfig(
                 id: "round_6_halloween_derby", name: "Halloween Derby",
                 tutorial: "Final round - everything you've learned, all at once, fast.",
                 pitches: new[] { fastball, changeup, curveball }, outLimit: 5,
-                pointsToAdvance: 650f, locationSpread: 0.9f, isBossRound: true);
+                pointsToAdvance: 2500f, locationSpread: 0.9f, isBossRound: true);
 
             var ballPrefab = CreateBallPrefab();
 
@@ -1054,6 +1054,14 @@ namespace HalloweenDerby.EditorTools
             Text gameWonText = CreateUiText(gameWonPanel.transform, "GameWonHeadline", new Vector2(0f, 60f), new Vector2(1000f, 220f), 56, TextAnchor.MiddleCenter, anchor: new Vector2(0.5f, 0.5f));
             Button playAgainButton = CreateUiButton(gameWonPanel.transform, "PlayAgainButton", new Vector2(0f, -120f), new Vector2(360f, 70f), "Play Again", 30);
 
+            // Rules screen shown before the derby starts - explains outs/home-run scoring up
+            // front instead of making the player piece it together from in-round toasts alone.
+            GameObject startScreenPanel = CreateFullScreenPanel(canvasGO.transform, "StartScreenPanel", new Color(0.03f, 0.02f, 0.06f, 0.92f));
+            CreateUiText(startScreenPanel.transform, "StartScreenTitle", new Vector2(0f, 180f), new Vector2(1000f, 90f), 56, TextAnchor.MiddleCenter, anchor: new Vector2(0.5f, 0.5f)).text = "HALLOWEEN DERBY";
+            CreateUiText(startScreenPanel.transform, "StartScreenRules", new Vector2(0f, 30f), new Vector2(1000f, 220f), 28, TextAnchor.MiddleCenter, anchor: new Vector2(0.5f, 0.5f)).text =
+                "You have 5 outs per stage.\n\nAnything that isn't a home run counts as an out.\n\nHome runs are worth double points.";
+            Button startButton = CreateUiButton(startScreenPanel.transform, "StartButton", new Vector2(0f, -140f), new Vector2(360f, 70f), "Start", 30);
+
             GameObject hudGO = new GameObject("HUDController");
             var hud = hudGO.AddComponent<HUDController>();
             SetPrivateField(hud, "distanceText", distanceText);
@@ -1068,6 +1076,8 @@ namespace HalloweenDerby.EditorTools
             SetPrivateField(hud, "gameWonPanel", gameWonPanel);
             SetPrivateField(hud, "gameWonText", gameWonText);
             SetPrivateField(hud, "playAgainButton", playAgainButton);
+            SetPrivateField(hud, "startScreenPanel", startScreenPanel);
+            SetPrivateField(hud, "startButton", startButton);
         }
 
         private static GameObject CreateFullScreenPanel(Transform parent, string name, Color backdropColor)

@@ -34,6 +34,7 @@ namespace HalloweenDerby.Tests
             yield return EditorSceneManager.LoadSceneInPlayMode(
                 "Assets/Scenes/Derby.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
+            GameEvents.RaiseGameStartRequested();
 
             var rm = Object.FindAnyObjectByType<RoundManager>();
             var hud = Object.FindAnyObjectByType<HUDController>();
@@ -60,6 +61,7 @@ namespace HalloweenDerby.Tests
             yield return EditorSceneManager.LoadSceneInPlayMode(
                 "Assets/Scenes/Derby.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
+            GameEvents.RaiseGameStartRequested();
 
             var rm = Object.FindAnyObjectByType<RoundManager>();
             var hud = Object.FindAnyObjectByType<HUDController>();

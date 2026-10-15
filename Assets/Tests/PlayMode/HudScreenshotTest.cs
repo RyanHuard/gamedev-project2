@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
+using HalloweenDerby.Core;
 
 namespace HalloweenDerby.Tests
 {
@@ -19,6 +20,7 @@ namespace HalloweenDerby.Tests
             yield return EditorSceneManager.LoadSceneInPlayMode(
                 "Assets/Scenes/Derby.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
+            GameEvents.RaiseGameStartRequested();
 
             // RoundManager's delayBeforeFirstPitch is 2s - wait past that so the tutorial text
             // and HUD are actually populated.

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
+using HalloweenDerby.Core;
 using HalloweenDerby.Pitching;
 using HalloweenDerby.UI;
 
@@ -20,6 +21,7 @@ namespace HalloweenDerby.Tests
             yield return EditorSceneManager.LoadSceneInPlayMode(
                 "Assets/Scenes/Derby.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
+            GameEvents.RaiseGameStartRequested();
 
             var pitchController = Object.FindAnyObjectByType<PitchController>();
             Assert.IsNotNull(pitchController, "No PitchController found");

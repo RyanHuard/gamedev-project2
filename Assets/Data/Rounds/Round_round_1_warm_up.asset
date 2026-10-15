@@ -24,5 +24,5 @@ MonoBehaviour:
   SuccessCriteria: 3
   HomeRunGoal: 3
   TargetGoal: 0
-  PointsToAdvance: 350
+  PointsToAdvance: 1000
   EndEarlyOnGoalMet: 0

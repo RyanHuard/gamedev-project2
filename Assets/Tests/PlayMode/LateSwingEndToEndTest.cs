@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
+using HalloweenDerby.Core;
 using HalloweenDerby.Pitching;
 using HalloweenDerby.Player;
 
@@ -25,6 +26,9 @@ namespace HalloweenDerby.Tests
             yield return EditorSceneManager.LoadSceneInPlayMode(
                 "Assets/Scenes/Derby.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
+            // The derby no longer auto-starts on scene load - it waits behind a Start button on
+            // the rules screen, so tests have to simulate clicking it.
+            GameEvents.RaiseGameStartRequested();
 
             var pitchController = Object.FindAnyObjectByType<PitchController>();
             var swingController = Object.FindAnyObjectByType<SwingController>();

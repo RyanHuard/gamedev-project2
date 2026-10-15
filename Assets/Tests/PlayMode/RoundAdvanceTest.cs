@@ -32,6 +32,7 @@ namespace HalloweenDerby.Tests
             yield return EditorSceneManager.LoadSceneInPlayMode(
                 "Assets/Scenes/Derby.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
+            GameEvents.RaiseGameStartRequested();
 
             var rm = Object.FindAnyObjectByType<RoundManager>();
             Assert.IsNotNull(rm, "No RoundManager found");

@@ -22,6 +22,8 @@ namespace HalloweenDerby.UI
         [SerializeField] private GameObject gameWonPanel;
         [SerializeField] private Text gameWonText;
         [SerializeField] private Button playAgainButton;
+        [SerializeField] private GameObject startScreenPanel;
+        [SerializeField] private Button startButton;
 
         private Coroutine tutorialHideRoutine;
 
@@ -38,6 +40,7 @@ namespace HalloweenDerby.UI
 
             if (continueButton != null) continueButton.onClick.AddListener(HandleContinueClicked);
             if (playAgainButton != null) playAgainButton.onClick.AddListener(HandlePlayAgainClicked);
+            if (startButton != null) startButton.onClick.AddListener(HandleStartClicked);
         }
 
         private void OnDisable()
@@ -53,6 +56,7 @@ namespace HalloweenDerby.UI
 
             if (continueButton != null) continueButton.onClick.RemoveListener(HandleContinueClicked);
             if (playAgainButton != null) playAgainButton.onClick.RemoveListener(HandlePlayAgainClicked);
+            if (startButton != null) startButton.onClick.RemoveListener(HandleStartClicked);
         }
 
         private void HandleBallDistanceUpdated(float feetSoFar)
@@ -65,6 +69,14 @@ namespace HalloweenDerby.UI
             if (tutorialPanel != null) tutorialPanel.SetActive(false);
             if (stageClearPanel != null) stageClearPanel.SetActive(false);
             if (gameWonPanel != null) gameWonPanel.SetActive(false);
+            // Shown by default - the derby doesn't begin until the player clicks Start here.
+            if (startScreenPanel != null) startScreenPanel.SetActive(true);
+        }
+
+        private void HandleStartClicked()
+        {
+            if (startScreenPanel != null) startScreenPanel.SetActive(false);
+            GameEvents.RaiseGameStartRequested();
         }
 
         private void HandleHitResolved(HitOutcome outcome)
@@ -103,7 +115,7 @@ namespace HalloweenDerby.UI
         private void HandleStageCleared(int stageNumber, int totalStages)
         {
             if (stageClearPanel == null || stageClearText == null) return;
-            stageClearText.text = $"Stage {stageNumber} Clear!\n\nOnward to Stage {stageNumber + 1}...";
+            stageClearText.text = $"Stage {stageNumber} Clear!\n\nContinue to Stage {stageNumber + 1}";
             stageClearPanel.SetActive(true);
         }
 

@@ -25,6 +25,7 @@ namespace HalloweenDerby.Core
         public static event Action GameWon;
         public static event Action ContinueRequested;
         public static event Action RestartRequested;
+        public static event Action GameStartRequested;
 
         public static void RaisePitchWindupStarted(Transform pitcherTransform) => PitchWindupStarted?.Invoke(pitcherTransform);
         public static void RaisePitchReleased() => PitchReleased?.Invoke();
@@ -44,5 +45,6 @@ namespace HalloweenDerby.Core
         public static void RaiseGameWon() => GameWon?.Invoke();
         public static void RaiseContinueRequested() => ContinueRequested?.Invoke();
         public static void RaiseRestartRequested() => RestartRequested?.Invoke();
+        public static void RaiseGameStartRequested() => GameStartRequested?.Invoke();
     }
 }

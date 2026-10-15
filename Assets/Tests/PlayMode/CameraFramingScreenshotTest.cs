@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
+using HalloweenDerby.Core;
 
 namespace HalloweenDerby.Tests
 {
@@ -22,6 +23,7 @@ namespace HalloweenDerby.Tests
             yield return EditorSceneManager.LoadSceneInPlayMode(
                 "Assets/Scenes/Derby.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
+            GameEvents.RaiseGameStartRequested();
 
             // Let CinemachineBrain position the Main Camera and lighting settle.
             for (int i = 0; i < 10; i++)
