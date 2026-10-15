@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6120081660df844e99e62c6417bccd4a, type: 3}
+  m_Name: Round_round_1_warm_up
+  m_EditorClassIdentifier: Assembly-CSharp::HalloweenDerby.Core.RoundConfig
+  RoundId: round_1_warm_up
+  DisplayName: Warm-Up
+  TutorialText: Move the reticle into the zone and click as the pumpkin arrives - where and when you connect both matter!
+  PitchPool:
+  - {fileID: 11400000, guid: 9615cfbf4c99f4fa69c240dd2413b8f7, type: 2}
+  PitchInterval: 2.2
+  IsBossRound: 0
+  PitchLocationSpread: 0.35
+  OutLimit: 5
+  SuccessCriteria: 3
+  HomeRunGoal: 3
+  TargetGoal: 0
+  PointsToAdvance: 350
+  EndEarlyOnGoalMet: 0

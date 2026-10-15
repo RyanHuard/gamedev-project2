@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6120081660df844e99e62c6417bccd4a, type: 3}
+  m_Name: Round_round_3_curveball_alley
+  m_EditorClassIdentifier: HalloweenDerby.Runtime::HalloweenDerby.Core.RoundConfig
+  RoundId: round_3_curveball_alley
+  DisplayName: Curveball Alley
+  TutorialText: A curveball joins the mix too - it breaks sideways late, so track it all the way in.
+  PitchPool:
+  - {fileID: 11400000, guid: 9615cfbf4c99f4fa69c240dd2413b8f7, type: 2}
+  - {fileID: 11400000, guid: 4ab19da45ba7e46da95b9ffdf6c2d009, type: 2}
+  - {fileID: 11400000, guid: fc63815c8848d444183cc2402a0bc47e, type: 2}
+  PitchInterval: 2.2
+  IsBossRound: 0
+  PitchLocationSpread: 0.55
+  OutLimit: 5
+  SuccessCriteria: 3
+  HomeRunGoal: 3
+  TargetGoal: 3
+  PointsToAdvance: 450
+  EndEarlyOnGoalMet: 0

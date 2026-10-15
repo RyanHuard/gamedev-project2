@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed0ca264e4ac450296dbb6d9b5a8aef, type: 3}
+  m_Name: PitchType_Fastball_Easy
+  m_EditorClassIdentifier: Assembly-CSharp::HalloweenDerby.Pitching.PitchTypeData
+  DisplayName: Fastball_Easy
+  WindupDuration: 0.85
+  FlightDuration: 0.8
+  WindupAnimTrigger: Windup_Fastball_Easy
+  ReleaseAnimTrigger: Release
+  LateralBreak: 0
+  ExtraDrop: 0
+  PerfectWindow: 0.09
+  GoodWindow: 0.16
+  WeakWindow: 0.26
