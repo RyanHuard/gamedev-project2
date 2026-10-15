@@ -11,7 +11,6 @@ namespace HalloweenDerby.Core
         [SerializeField] private PitchController pitchController;
         [SerializeField] private float delayBeforeFirstPitch = 2f;
         [SerializeField] private float delayBeforeRetry = 1.5f;
-        [SerializeField] private float delayBeforeNextRound = 2.5f;
 
         public RoundConfig CurrentRound { get; private set; }
         public int CurrentRoundIndex { get; private set; } = -1;
@@ -29,6 +28,7 @@ namespace HalloweenDerby.Core
             GameEvents.HitResolved += HandleHitResolved;
             GameEvents.BallCameraRequested += HandleBallCameraRequested;
             GameEvents.BallCameraReleased += HandleBallCameraReleased;
+            GameEvents.RestartRequested += HandleRestartRequested;
         }
 
         private void OnDisable()
@@ -36,7 +36,10 @@ namespace HalloweenDerby.Core
             GameEvents.HitResolved -= HandleHitResolved;
             GameEvents.BallCameraRequested -= HandleBallCameraRequested;
             GameEvents.BallCameraReleased -= HandleBallCameraReleased;
+            GameEvents.RestartRequested -= HandleRestartRequested;
         }
+
+        private void HandleRestartRequested() => StartRound(0);
 
         private void HandleBallCameraRequested(Transform _) => ballCameraActive = true;
         private void HandleBallCameraReleased() => ballCameraActive = false;
@@ -72,6 +75,7 @@ namespace HalloweenDerby.Core
             AudioManager.Instance?.PlayOneShot(SfxId.RoundStart);
             // No music, per feedback - SFX only.
             GameEvents.RaiseRoundStarted(CurrentRound.RoundId);
+            GameEvents.RaiseStageChanged(CurrentRoundIndex + 1, rounds.Length);
             GameEvents.RaiseTutorialTextRequested(CurrentRound.TutorialText, 6f);
             GameEvents.RaiseOutsChanged(OutsUsed, CurrentRound.OutLimit);
             GameEvents.RaiseScoreChanged(ScoreThisRound, CurrentRound.PointsToAdvance);
@@ -138,15 +142,35 @@ namespace HalloweenDerby.Core
             if (success)
             {
                 AudioManager.Instance?.PlayOneShot(SfxId.RoundClear);
-                // This was the actual bug: nothing ever called AdvanceToNextRound() - clearing
-                // a round played the clear sound and then just stopped, forever, even on a win.
-                StartCoroutine(BeginRoundAfterDelay(CurrentRoundIndex + 1, delayBeforeNextRound));
+                bool isFinalStage = CurrentRoundIndex >= rounds.Length - 1;
+                if (isFinalStage)
+                {
+                    GameEvents.RaiseGameWon();
+                }
+                else
+                {
+                    // Clearing a stage now pauses on a "Stage Clear" menu instead of
+                    // auto-continuing after a fixed delay - RoundManager just waits here until
+                    // the HUD reports the player clicked Continue.
+                    GameEvents.RaiseStageCleared(CurrentRoundIndex + 1, rounds.Length);
+                    StartCoroutine(AdvanceAfterContinue());
+                }
             }
             else
             {
                 AudioManager.Instance?.PlayOneShot(SfxId.RoundFail);
                 StartCoroutine(BeginRoundAfterDelay(CurrentRoundIndex, delayBeforeRetry));
             }
+        }
+
+        private IEnumerator AdvanceAfterContinue()
+        {
+            bool continued = false;
+            void OnContinue() => continued = true;
+            GameEvents.ContinueRequested += OnContinue;
+            yield return new WaitUntil(() => continued);
+            GameEvents.ContinueRequested -= OnContinue;
+            StartRound(CurrentRoundIndex + 1);
         }
 
         private void HandleHitResolved(HitOutcome outcome)

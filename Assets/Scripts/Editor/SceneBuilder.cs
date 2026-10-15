@@ -1024,7 +1024,7 @@ namespace HalloweenDerby.EditorTools
 
             Text distanceText = CreateUiText(canvasGO.transform, "DistanceText", new Vector2(0f, -40f), new Vector2(600f, 60f), 36, TextAnchor.UpperCenter);
             Text outsText = CreateUiText(canvasGO.transform, "OutsText", new Vector2(-760f, -40f), new Vector2(300f, 50f), 28, TextAnchor.UpperLeft);
-            Text roundNameText = CreateUiText(canvasGO.transform, "RoundNameText", new Vector2(760f, -40f), new Vector2(350f, 50f), 28, TextAnchor.UpperRight);
+            Text stageText = CreateUiText(canvasGO.transform, "StageText", new Vector2(760f, -40f), new Vector2(350f, 50f), 28, TextAnchor.UpperRight);
             // Canvas reference width is 1920 (half = 960). At x=-760 the previous 420-wide box's
             // left edge (-760-210=-970) ran past the left edge of the screen (-960) - this
             // narrower box (left edge -760-150=-910) stays safely on-screen at a smaller font.
@@ -1044,14 +1044,65 @@ namespace HalloweenDerby.EditorTools
             // so only its bottom half was actually inside the box.
             Text tutorialText = CreateUiText(tutorialPanel.transform, "TutorialText", Vector2.zero, new Vector2(860f, 95f), 22, TextAnchor.MiddleCenter, anchor: new Vector2(0.5f, 0.5f));
 
+            // Full-screen modal shown between stages - distinguishing each stage with an actual
+            // "Stage Clear" break (not just an instant auto-continue) is what was asked for here.
+            GameObject stageClearPanel = CreateFullScreenPanel(canvasGO.transform, "StageClearPanel", new Color(0.03f, 0.02f, 0.06f, 0.85f));
+            Text stageClearText = CreateUiText(stageClearPanel.transform, "StageClearHeadline", new Vector2(0f, 60f), new Vector2(900f, 160f), 48, TextAnchor.MiddleCenter, anchor: new Vector2(0.5f, 0.5f));
+            Button continueButton = CreateUiButton(stageClearPanel.transform, "ContinueButton", new Vector2(0f, -100f), new Vector2(360f, 70f), "Continue", 30);
+
+            GameObject gameWonPanel = CreateFullScreenPanel(canvasGO.transform, "GameWonPanel", new Color(0.03f, 0.02f, 0.06f, 0.9f));
+            Text gameWonText = CreateUiText(gameWonPanel.transform, "GameWonHeadline", new Vector2(0f, 60f), new Vector2(1000f, 220f), 56, TextAnchor.MiddleCenter, anchor: new Vector2(0.5f, 0.5f));
+            Button playAgainButton = CreateUiButton(gameWonPanel.transform, "PlayAgainButton", new Vector2(0f, -120f), new Vector2(360f, 70f), "Play Again", 30);
+
             GameObject hudGO = new GameObject("HUDController");
             var hud = hudGO.AddComponent<HUDController>();
             SetPrivateField(hud, "distanceText", distanceText);
             SetPrivateField(hud, "outsText", outsText);
-            SetPrivateField(hud, "roundNameText", roundNameText);
+            SetPrivateField(hud, "stageText", stageText);
             SetPrivateField(hud, "scoreText", scoreText);
             SetPrivateField(hud, "tutorialPanel", tutorialPanel);
             SetPrivateField(hud, "tutorialText", tutorialText);
+            SetPrivateField(hud, "stageClearPanel", stageClearPanel);
+            SetPrivateField(hud, "stageClearText", stageClearText);
+            SetPrivateField(hud, "continueButton", continueButton);
+            SetPrivateField(hud, "gameWonPanel", gameWonPanel);
+            SetPrivateField(hud, "gameWonText", gameWonText);
+            SetPrivateField(hud, "playAgainButton", playAgainButton);
+        }
+
+        private static GameObject CreateFullScreenPanel(Transform parent, string name, Color backdropColor)
+        {
+            GameObject go = new GameObject(name, typeof(RectTransform));
+            go.transform.SetParent(parent, false);
+            var rect = go.GetComponent<RectTransform>();
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            go.AddComponent<Image>().color = backdropColor;
+            return go;
+        }
+
+        private static Button CreateUiButton(Transform parent, string name, Vector2 anchoredPos, Vector2 size, string label, int fontSize)
+        {
+            GameObject go = new GameObject(name, typeof(RectTransform));
+            go.transform.SetParent(parent, false);
+            var rect = go.GetComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0.5f, 0.5f);
+            rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = anchoredPos;
+            rect.sizeDelta = size;
+
+            var image = go.AddComponent<Image>();
+            image.color = new Color(0.65f, 0.25f, 0.05f, 0.95f); // warm pumpkin-orange, matches theme
+            var button = go.AddComponent<Button>();
+            var colors = button.colors;
+            colors.highlightedColor = new Color(0.85f, 0.4f, 0.1f, 1f);
+            colors.pressedColor = new Color(0.45f, 0.15f, 0.02f, 1f);
+            button.colors = colors;
+
+            CreateUiText(go.transform, name + "_Label", Vector2.zero, size, fontSize, TextAnchor.MiddleCenter, anchor: new Vector2(0.5f, 0.5f)).text = label;
+            return button;
         }
 
         private static Text CreateUiText(Transform parent, string name, Vector2 anchoredPos, Vector2 size, int fontSize, TextAnchor alignment, Vector2? anchor = null)

@@ -59,7 +59,10 @@ namespace HalloweenDerby.Tests
             var endRound = typeof(RoundManager).GetMethod("EndRound", BindingFlags.NonPublic | BindingFlags.Instance);
             endRound.Invoke(rm, new object[] { rm.CurrentRound });
 
-            // delayBeforeNextRound defaults to 2.5s.
+            // Clearing a round now pauses on the Stage Clear menu instead of auto-continuing -
+            // simulate the player clicking Continue, same as HUDController.HandleContinueClicked.
+            GameEvents.RaiseContinueRequested();
+
             float waited = 0f;
             while (rm.CurrentRoundIndex == 0 && waited < 5f)
             {
@@ -68,7 +71,7 @@ namespace HalloweenDerby.Tests
             }
 
             Assert.AreEqual(1, rm.CurrentRoundIndex,
-                "Clearing round 0 should have advanced to round 1 - it stayed on round 0 instead.");
+                "Clearing round 0 and clicking Continue should have advanced to round 1 - it stayed on round 0 instead.");
         }
     }
 }

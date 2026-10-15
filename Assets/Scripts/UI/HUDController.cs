@@ -11,10 +11,17 @@ namespace HalloweenDerby.UI
     {
         [SerializeField] private Text distanceText;
         [SerializeField] private Text outsText;
-        [SerializeField] private Text roundNameText;
+        [SerializeField] private Text stageText;
         [SerializeField] private Text scoreText;
         [SerializeField] private GameObject tutorialPanel;
         [SerializeField] private Text tutorialText;
+
+        [SerializeField] private GameObject stageClearPanel;
+        [SerializeField] private Text stageClearText;
+        [SerializeField] private Button continueButton;
+        [SerializeField] private GameObject gameWonPanel;
+        [SerializeField] private Text gameWonText;
+        [SerializeField] private Button playAgainButton;
 
         private Coroutine tutorialHideRoutine;
 
@@ -25,7 +32,12 @@ namespace HalloweenDerby.UI
             GameEvents.OutsChanged += HandleOutsChanged;
             GameEvents.ScoreChanged += HandleScoreChanged;
             GameEvents.TutorialTextRequested += HandleTutorialTextRequested;
-            GameEvents.RoundStarted += HandleRoundStarted;
+            GameEvents.StageChanged += HandleStageChanged;
+            GameEvents.StageCleared += HandleStageCleared;
+            GameEvents.GameWon += HandleGameWon;
+
+            if (continueButton != null) continueButton.onClick.AddListener(HandleContinueClicked);
+            if (playAgainButton != null) playAgainButton.onClick.AddListener(HandlePlayAgainClicked);
         }
 
         private void OnDisable()
@@ -35,7 +47,12 @@ namespace HalloweenDerby.UI
             GameEvents.OutsChanged -= HandleOutsChanged;
             GameEvents.ScoreChanged -= HandleScoreChanged;
             GameEvents.TutorialTextRequested -= HandleTutorialTextRequested;
-            GameEvents.RoundStarted -= HandleRoundStarted;
+            GameEvents.StageChanged -= HandleStageChanged;
+            GameEvents.StageCleared -= HandleStageCleared;
+            GameEvents.GameWon -= HandleGameWon;
+
+            if (continueButton != null) continueButton.onClick.RemoveListener(HandleContinueClicked);
+            if (playAgainButton != null) playAgainButton.onClick.RemoveListener(HandlePlayAgainClicked);
         }
 
         private void HandleBallDistanceUpdated(float feetSoFar)
@@ -46,6 +63,8 @@ namespace HalloweenDerby.UI
         private void Start()
         {
             if (tutorialPanel != null) tutorialPanel.SetActive(false);
+            if (stageClearPanel != null) stageClearPanel.SetActive(false);
+            if (gameWonPanel != null) gameWonPanel.SetActive(false);
         }
 
         private void HandleHitResolved(HitOutcome outcome)
@@ -76,9 +95,35 @@ namespace HalloweenDerby.UI
             if (scoreText != null) scoreText.text = $"Score: {score:0} / {pointsToAdvance:0}";
         }
 
-        private void HandleRoundStarted(string roundId)
+        private void HandleStageChanged(int stageNumber, int totalStages)
         {
-            if (roundNameText != null) roundNameText.text = roundId;
+            if (stageText != null) stageText.text = $"Stage {stageNumber}";
+        }
+
+        private void HandleStageCleared(int stageNumber, int totalStages)
+        {
+            if (stageClearPanel == null || stageClearText == null) return;
+            stageClearText.text = $"Stage {stageNumber} Clear!\n\nOnward to Stage {stageNumber + 1}...";
+            stageClearPanel.SetActive(true);
+        }
+
+        private void HandleContinueClicked()
+        {
+            if (stageClearPanel != null) stageClearPanel.SetActive(false);
+            GameEvents.RaiseContinueRequested();
+        }
+
+        private void HandleGameWon()
+        {
+            if (gameWonPanel == null || gameWonText == null) return;
+            gameWonText.text = "YOU WIN!\n\nThanks for playing Halloween Derby.";
+            gameWonPanel.SetActive(true);
+        }
+
+        private void HandlePlayAgainClicked()
+        {
+            if (gameWonPanel != null) gameWonPanel.SetActive(false);
+            GameEvents.RaiseRestartRequested();
         }
 
         private void HandleTutorialTextRequested(string message, float duration)
